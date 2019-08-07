@@ -2,6 +2,7 @@ version: 0.2
 env:
   variables:
     VERSION: 1.0.0
+    STACK_NAME: s3-testing
 phases:
   install:
     runtime-versions:
@@ -16,4 +17,3 @@ phases:
         aws cloudformation deploy \
           --template-file ${CODEBUILD_RESOLVED_SOURCE_VERSION}.yaml \
           --stack-name ${STACK_NAME} \
-          --parameter-overrides Env=${NODE_ENV} --tags stage=${NODE_ENV}
