@@ -1,0 +1,19 @@
+version: 0.2
+env:
+  variables:
+    VERSION: 1.0.0
+phases:
+  install:
+    runtime-versions:
+      nodejs: 10
+    commands:
+      - npm install
+  build:
+    commands:
+      - aws cloudformation package --template ${CODEBUILD_SRC_DIR}/ops/stack.yaml  > ${CODEBUILD_RESOLVED_SOURCE_VERSION}.yaml
+      - sed -i -e '1d'  ${CODEBUILD_RESOLVED_SOURCE_VERSION}.yaml 
+      - |
+        aws cloudformation deploy \
+          --template-file ${CODEBUILD_RESOLVED_SOURCE_VERSION}.yaml \
+          --stack-name ${STACK_NAME} \
+          --parameter-overrides Env=${NODE_ENV} --tags stage=${NODE_ENV}
