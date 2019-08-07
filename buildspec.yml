@@ -12,8 +12,4 @@ phases:
   build:
     commands:
       - aws cloudformation package --template ${CODEBUILD_SRC_DIR}/ops/stack.yaml --s3-bucket cf-notify-eil4t > ${CODEBUILD_RESOLVED_SOURCE_VERSION}.yaml
-      - sed -i -e '1d'  ${CODEBUILD_RESOLVED_SOURCE_VERSION}.yaml 
-      - |
-        aws cloudformation deploy \
-          --template-file ${CODEBUILD_RESOLVED_SOURCE_VERSION}.yaml \
-          --stack-name ${STACK_NAME} \
+      - sed -i -e '1d' deployme.yaml 
